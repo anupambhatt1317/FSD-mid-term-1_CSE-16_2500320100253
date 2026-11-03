@@ -8,6 +8,8 @@ app.use(express.urlencoded({ extended: true }));
 
 let students = [];
 
+// TASK 1: Create Express Server
+
 app.get('/', (req, res) => {
     res.send("Welcome to Node.js and Express.js!");
 });
@@ -102,6 +104,29 @@ app.put('/students/:id', (req, res) => {
     res.status(200).json({
         message: "Student updated successfully!",
         student: student
+    });
+});
+
+// TASK 5: DELETE API - Delete Student
+
+app.delete('/students/:id', (req, res) => {
+    const studentId = req.params.id;
+
+    const studentIndex = students.findIndex(
+        student => String(student.id) === studentId
+    );
+
+    if (studentIndex === -1) {
+        return res.status(404).json({
+            message: "Student not found"
+        });
+    }
+
+    const deletedStudent = students.splice(studentIndex, 1);
+
+    res.status(200).json({
+        message: "Student deleted successfully!",
+        student: deletedStudent[0]
     });
 });
 
